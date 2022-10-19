@@ -10,8 +10,36 @@ from api.v1.register.serializers import CreateSerializer, DeleteSerializer
 def register(request):
     instances = Create.objects.filter(is_deleted=False)
     serializer = CreateSerializer(instances, many=True)
+    response_data = {
+        "status_code": 6000,
+        "data": serializer.data
+    }
 
-    return Response(serializer.data)
+    return Response(response_data)
+
+
+@api_view(['GET'])
+def register_list(request, pk):
+    if Create.objects.filter(pk=pk).exists():
+        instance = Create.objects.get(pk=pk)
+
+        context = {
+            "request": request,
+        }
+
+        serializer = CreateSerializer(instance, context=context)
+        response_data = {
+            "status_code": 6000,
+            "data": serializer.data
+        }
+        return Response(response_data)
+
+    else:
+        response_data = {
+            'status_code': 6001,
+            'messages': 'Not Found',
+        }
+        return Response(response_data)
 
 
 @api_view(['POST'])
@@ -74,7 +102,7 @@ def delete_data(request, pk):
     if Create.objects.filter(pk=pk).exists():
         register = Create.objects.get(pk=pk)
 
-        serializer = DeleteSerializer(
+        serializer = CreateSerializer(
             instance=register, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
