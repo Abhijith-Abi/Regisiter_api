@@ -6,7 +6,6 @@ class Create(models.Model):
     last_name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="create/images/")
     email = models.EmailField(max_length=255)
-    password = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     date = models.DateField(auto_now_add=True)
