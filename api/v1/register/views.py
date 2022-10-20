@@ -1,9 +1,10 @@
 from functools import partial
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
-from register.models import Create
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from api.v1.register.serializers import CreateSerializer, DeleteSerializer
+from register.models import Create
 
 
 @api_view(['GET'])
